@@ -13,7 +13,7 @@ def TotalTime(db):
     x = []
     y = []
     for entry in db:
-        v = dt.datetime.fromtimestamp(db[entry]['IntegratedTime'])
+        v = dt.datetime.fromtimestamp(db[entry]['integratedTime'])
         x.append(dt.date(v.year, v.month, v.day))
         y.append(len(x))
         
@@ -28,7 +28,7 @@ def ChangeTime(db):
     x = []
     yaxis = []
     for entry in db:
-        v = dt.datetime.fromtimestamp(db[entry]['IntegratedTime'])
+        v = dt.datetime.fromtimestamp(db[entry]['integratedTime'])
         x.append(dt.date(v.year, v.month, v.day))
         yaxis.append(len(x))
     
@@ -54,8 +54,8 @@ def DistTime(db):
     formats = []
     xaxis = []
     for entry in db:
-        formats.append(db[entry]['Body']['RekordObj']['signature']['format'])
-        v = dt.datetime.fromtimestamp(db[entry]['IntegratedTime'])
+        formats.append(db[entry]['body']['spec']['signature']['format'])
+        v = dt.datetime.fromtimestamp(db[entry]['integratedTime'])
         xaxis.append(dt.date(v.year, v.month, v.day))
     
     labels = []
@@ -82,8 +82,7 @@ def DistTime(db):
 def DistBar(db):
     formats = []
     for entry in db:
-        formats.append(db[entry]['Body']['RekordObj']['signature']['format'])
-        # formats.append(db[entry]['spec']['signature']['format'])
+        formats.append(db[entry]['body']['spec']['signature']['format'])
         
     x = []
     y = []
@@ -107,8 +106,8 @@ def Table(db):
     formats = []
     xaxis = []
     for entry in db:
-        formats.append(db[entry]['Body']['RekordObj']['signature']['format'])
-        v = dt.datetime.fromtimestamp(db[entry]['IntegratedTime'])
+        formats.append(db[entry]['body']['spec']['signature']['format'])
+        v = dt.datetime.fromtimestamp(db[entry]['integratedTime'])
         xaxis.append(dt.date(v.year, v.month, v.day))
     
     labels = []
@@ -138,21 +137,14 @@ def Table(db):
 
 def main():
     con = sqlite3.connect('testy2.db')
-    # con = sqlite3.connect('test.db')
     cur = con.execute('SELECT * FROM entries ORDER BY idx')
 
     db = {}
     for row in cur:
         db[row[0]] = json.loads(row[1])
-        
-    # target = sys.stdin.readline()
-    # target = sys.stdin.readline()
-
-    # while True:
-    #     target = sys.stdin.readline()
-    #     target = sys.stdin.readline()
-    #     payload = json.loads(target)
-    #     payload['body'] = json.loads(base64.b64decode(payload['body']))
+    
+    for i in db:
+        db[i]['body'] = json.loads(base64.b64decode(db[i]['body']))
     
     # Table(db)
     # DistBar(db)
@@ -162,3 +154,12 @@ def main():
                     
 if __name__ == '__main__':
     main()
+    
+    # target = sys.stdin.readline()
+    # target = sys.stdin.readline()
+
+    # while True:
+    #     target = sys.stdin.readline()
+    #     target = sys.stdin.readline()
+    #     payload = json.loads(target)
+    #     payload['body'] = json.loads(base64.b64decode(payload['body']))
