@@ -21,5 +21,5 @@ def ChangeTime(db):
         
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d/%Y'))
     plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval = int((x[-1] - x[0]).days / 5)))
-    plt.plot(x, slope)
+    plt.plot(x, slope, '.')
     plt.gcf().autofmt_xdate()
