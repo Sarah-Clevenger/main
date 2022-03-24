@@ -16,11 +16,10 @@ def DistTime(db):
         if i not in labels:
             labels.append(i)
         
-    i = int((365 * (xaxis[-1].year - xaxis[0].year) + 30 * (xaxis[-1].month - xaxis[0].month) + xaxis[-1].day - xaxis[0].day) / 5)
     colors = plt.cm.rainbow(np.linspace(0, 1, len(labels)))
     
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d/%Y'))
-    plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval = i))
+    plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval = int((xaxis[-1] - xaxis[0]).days / 5)))
     for m in range(len(labels)):
         x = []
         y = []
