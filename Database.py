@@ -23,12 +23,10 @@ def ChangeTime(db):
     slope = [y[0]]
     for k in range(len(x) - 1):
         slope.append(y[k + 1] - y[k])
-        
-    i = int((365 * (x[-1].year - x[0].year) + 30 * (x[-1].month - x[0].month) + x[-1].day - x[0].day) / 5)
     
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d/%Y'))
-    plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval = i))
-    plt.plot(x, slope)
+    plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval = int((x[-1] - x[0]).days / 5)))
+    plt.plot(x, slope, '.')
     plt.gcf().autofmt_xdate()
 
 def DistBar(db):
@@ -65,11 +63,10 @@ def DistTime(db):
         if i not in labels:
             labels.append(i)
         
-    i = int((365 * (xaxis[-1].year - xaxis[0].year) + 30 * (xaxis[-1].month - xaxis[0].month) + xaxis[-1].day - xaxis[0].day) / 5)
     colors = plt.cm.rainbow(np.linspace(0, 1, len(labels)))
     
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d/%Y'))
-    plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval = i))
+    plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval = int((xaxis[-1] - xaxis[0]).days / 5)))
     for m in range(len(labels)):
         x = []
         y = []
@@ -123,11 +120,9 @@ def TotalTime(db):
         v = dt.datetime.fromtimestamp(db[entry]['integratedTime'])
         x.append(dt.date(v.year, v.month, v.day))
         y.append(len(x))
-        
-    i = int((365 * (x[-1].year - x[0].year) + 30 * (x[-1].month - x[0].month) + x[-1].day - x[0].day) / 5)
-    
+
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d/%Y'))
-    plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval = i))
+    plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval = int((x[-1] - x[0]).days / 5)))
     plt.plot(x, y)
     plt.gcf().autofmt_xdate()
 
