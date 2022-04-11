@@ -78,41 +78,6 @@ def DistTime(db):
     plt.gcf().autofmt_xdate()
     plt.legend()
     
-def Table(db):
-    metadata = sa.MetaData()
-    
-    formats = []
-    xaxis = []
-    for entry in db:
-        formats.append(db[entry]['body']['spec']['signature']['format'])
-        v = dt.datetime.fromtimestamp(db[entry]['IntegratedTime'])
-        xaxis.append(dt.date(v.year, v.month, v.day))
-    
-    labels = []
-    for i in formats:
-        if i not in labels:
-            labels.append(i)
-    
-    times = []
-    count = []
-    total = []
-    for m in range(len(labels)):
-        x = []
-        y = []
-        for n in range(len(formats)):
-            if formats[n] == labels[m]:
-                x.append(xaxis[n])
-                y.append(len(x))
-        times.append(x)
-        count.append(y)
-        total.append(y[-1])
-    
-    table = sa.Table('table', metadata, 
-        sa.Column('type', sa.String, primary_key = True),
-        sa.Column('time', sa.DateTime, nullable = False),
-        sa.Column('count', sa.Integer, key = 'count'), 
-        sa.Column('total', sa.Integer, nullable = False))
-    
 def TotalTime(db):
     x = []
     y = []
@@ -140,7 +105,6 @@ def main():
     # ChangeTime(db)
     # DistBar(db)
     # DistTime(db)
-    # Table(db)
     # TotalTime(db)
                     
 if __name__ == '__main__':
