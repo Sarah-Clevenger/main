@@ -4,9 +4,8 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import numpy as np
 import datetime as dt
-import sqlalchemy as sa
 import base64
-    
+
 def ChangeTime(db):
     xaxis = []
     for entry in db:
@@ -28,6 +27,9 @@ def ChangeTime(db):
     plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval = int((x[-1] - x[0]).days / 5)))
     plt.plot(x, slope, '.')
     plt.gcf().autofmt_xdate()
+    plt.title('Total Change in Count Over Time')
+    plt.xlabel('Time')
+    plt.ylabel('Count')
 
 def DistBar(db):
     formats = []
@@ -45,10 +47,9 @@ def DistBar(db):
     colors = plt.cm.rainbow(np.linspace(0, 1, len(x)))
     
     plt.barh(y, x, color = colors)
-    plt.title('Formats')
+    plt.title('Distribution of Formats')
     plt.xlabel('Count')
-    plt.ylabel('Type')
-    plt.show()
+    plt.ylabel('Format')
 
 def DistTime(db):
     formats = []
@@ -77,6 +78,9 @@ def DistTime(db):
         plt.plot(x, y, label = labels[m], color = colors[m])
     plt.gcf().autofmt_xdate()
     plt.legend()
+    plt.title('Distribution Formats Over Time')
+    plt.xlabel('Time')
+    plt.ylabel('Count')
     
 def TotalTime(db):
     x = []
@@ -90,6 +94,9 @@ def TotalTime(db):
     plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval = int((x[-1] - x[0]).days / 5)))
     plt.plot(x, y)
     plt.gcf().autofmt_xdate()
+    plt.title('Total Count Over Time Graph')
+    plt.xlabel('Time')
+    plt.ylabel('Count')
 
 def main():
     con = sqlite3.connect('testy2.db')
@@ -102,10 +109,10 @@ def main():
     for i in db:
         db[i]['body'] = json.loads(base64.b64decode(db[i]['body']))
     
-    # ChangeTime(db)
-    # DistBar(db)
-    # DistTime(db)
-    # TotalTime(db)
+    figures = [ChangeTime, DistBar, DistTime, TotalTime]
+    for t in figures:
+        plt.figure()
+        t(db)
                     
 if __name__ == '__main__':
     main()
