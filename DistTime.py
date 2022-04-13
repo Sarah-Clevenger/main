@@ -30,3 +30,6 @@ def DistTime(db):
         plt.plot(x, y, label = labels[m], color = colors[m])
     plt.gcf().autofmt_xdate()
     plt.legend()
+    plt.title('Distribution Formats Over Time')
+    plt.xlabel('Time')
+    plt.ylabel('Count')
