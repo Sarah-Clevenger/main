@@ -18,8 +18,11 @@ def ChangeTime(db):
     slope = [y[0]]
     for k in range(len(x) - 1):
         slope.append(y[k + 1] - y[k])
-        
+    
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m/%d/%Y'))
     plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval = int((x[-1] - x[0]).days / 5)))
     plt.plot(x, slope, '.')
     plt.gcf().autofmt_xdate()
+    plt.title('Total Change in Count Over Time')
+    plt.xlabel('Time')
+    plt.ylabel('Count')
