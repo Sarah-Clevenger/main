@@ -17,7 +17,6 @@ def DistBar(db):
     colors = plt.cm.rainbow(np.linspace(0, 1, len(x)))
     
     plt.barh(y, x, color = colors)
-    plt.title('Formats')
+    plt.title('Distribution of Formats')
     plt.xlabel('Count')
-    plt.ylabel('Type')
-    plt.show()
+    plt.ylabel('Format')
